@@ -1,13 +1,13 @@
 package org.example;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
-    }
+import org.example.repositories.IAppRepository;
+
+public class App {
+   static IAppRepository appRepo;
+
+
+   public static void main(String[] args) {
+      Context.initilize();
+      Demo.run();
+   }
 }
