@@ -152,15 +152,15 @@ Biar kerja bareng makin lancar, ada beberapa aturan main soal GitHub di proyek i
    Biar histori git rapi & gampang dilacak, pakai format commit message:
 
    ```
-   [feat/fix/chore]: deskripsi singkat
+   feat/fix/chore: deskripsi singkat
    ```
 
    Contoh:
 
-   -  `[feat]: tambah fitur export ke CSV`
-   -  `[fix]: benerin error waktu login`
-   -  `[chore]: rapihin struktur folder model`
-      Commit message boleh pakai bahasa Indonesia atau Inggris, yang penting jelas & singkat.
+   -  `feat: tambah fitur export ke CSV`
+   -  `fix: benerin error waktu login`
+   -  `chore: rapihin struktur folder model`
+      Commit message boleh pakai bahasa Indonesia aja biar gampang dipahami;
 
 -  **Review & Merge**  
    Setiap PR ke `dev` sebaiknya di-review dulu sama minimal 1 orang sebelum di-merge.
