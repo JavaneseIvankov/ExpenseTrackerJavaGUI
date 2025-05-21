@@ -102,6 +102,13 @@ trx1.setCategory("Makanan & Minuman");   // ganti kategori (pakai nama)
 
 List<Transaction> semuaTrx = Transaction.getHistory(); // ambil semua histori transaksi
 
+// Ambil transaksi by id
+if (!semuaTrx.isEmpty()) {
+    int idTrx = semuaTrx.get(0).getId();
+    Transaction trxById = Transaction.getById(idTrx); // ambil instance Transaction berdasarkan id
+    // trxById siap dipakai, misal print detailnya
+}
+
 trx1.delete(); // hapus transaksi
 ```
 

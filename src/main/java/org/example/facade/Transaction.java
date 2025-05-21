@@ -85,6 +85,11 @@ public class Transaction {
       return res;
    }
 
+   public static Transaction getById(int transactionId) {
+      TransactionModel model = _repo.getTransaction(transactionId);
+      return new Transaction(model);
+   }
+
 
    public void delete() {
       _repo.deleteTransaction(id);

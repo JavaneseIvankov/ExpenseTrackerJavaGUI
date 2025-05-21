@@ -64,6 +64,13 @@ public class Demo {
       List<Transaction> semuaTrx = Transaction.getHistory();
       printTransactionList(semuaTrx, "Daftar semua transaksi");
 
+      // Ambil transaksi by id (pakai method baru getById)
+      if (!semuaTrx.isEmpty()) {
+         int idTrxPertama = semuaTrx.get(0).getId();
+         Transaction trxById = Transaction.getById(idTrxPertama);
+         printTransaction(trxById, "Ambil transaksi by id (fitur baru)");
+      }
+
       // Hapus transaksi kedua
       trx2.delete();
       System.out.println("Transaksi kedua sudah dihapus!");
