@@ -2,6 +2,7 @@ package org.example.repositories;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Date;
 import org.example.models.CategoryModel;
 import org.example.models.TransactionModel;
 
@@ -16,7 +17,7 @@ public interface IAppRepository {
 
    public List<TransactionModel> getTransactions();
 
-   public List<TransactionModel> getTransactions(LocalDateTime from, LocalDateTime until);
+   public List<TransactionModel> getTransactions(Date from, Date until);
 
    public TransactionModel getTransaction(int transactionId);
 

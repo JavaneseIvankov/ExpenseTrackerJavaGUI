@@ -3,6 +3,7 @@ package org.example.facade;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 import org.example.Context;
 import org.example.models.CategoryModel;
 import org.example.models.TransactionModel;
@@ -61,7 +62,7 @@ public class Transaction {
       _repo = repo;
    }
 
-   static List<Transaction> getHistory(LocalDateTime from, LocalDateTime until) {
+   public static List<Transaction> getHistory(Date from, Date until) {
       List<TransactionModel> models = _repo.getTransactions(from, until);
       List<Transaction> res = new ArrayList<Transaction>();
 

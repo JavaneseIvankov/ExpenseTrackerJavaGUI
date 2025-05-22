@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import com.toedter.calendar.JCalendar;
 import javax.swing.JSpinner;
@@ -467,8 +469,25 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
         Transaction tx = new Transaction(txTitle, txAmount, txCategory, txTime);
     }                                                 
 
-    private void buttonOkReportActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        // TODO add your handling code here:
+    private void buttonOkReportActionPerformed(java.awt.event.ActionEvent evt) {
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tableReport.getModel();
+        model.setRowCount(0);
+
+        Date from = dateChFrom.getDate();      
+        Date to = dateChUntil.getDate();                     
+        List<Transaction> txs = Transaction.getHistory(from, to);
+
+        for(Transaction tx : txs){
+            String txType = tx.getAmount() < 0 ? "Expense" : "Income"; 
+            Object[] data = {
+                tx.getCreatedAt(),
+                tx.getTitle(),
+                tx.getCategoryName(),
+                txType,
+                tx.getAmount()
+            };
+            model.addColumn(data);
+        }
     } 
 
     private void txtKetExpenseActionPerformed(java.awt.event.ActionEvent evt) {                                              
