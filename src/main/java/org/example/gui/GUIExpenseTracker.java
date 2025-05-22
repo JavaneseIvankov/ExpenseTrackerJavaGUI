@@ -452,6 +452,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
     }// </editor-fold>                        
 
     private void buttonSaveIncomeActionPerformed(java.awt.event.ActionEvent evt) {   
+        if(!autoRefreshEnabled) autoRefreshEnabled = true;
         String txTitle = txtKetIncome.getText();
         Double txAmount = Double.parseDouble(txtNominalIncome.getText());
         String txCategory = comboCatIncome.getSelectedItem().toString();
@@ -462,6 +463,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
     }                                                
 
     private void buttonSaveExpenseActionPerformed(java.awt.event.ActionEvent evt) {                                                  
+        if(!autoRefreshEnabled) autoRefreshEnabled = true;
         String txTitle = txtKetExpense.getText();
         Double txAmount = Double.parseDouble(txtNominalExpense.getText())*(-1);
         String txCategory = comboCatExpense.getSelectedItem().toString();
@@ -472,6 +474,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
     }                                                 
 
     private void buttonOkReportActionPerformed(java.awt.event.ActionEvent evt) {
+        autoRefreshEnabled = false;
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tableReport.getModel();
         model.setRowCount(0);
 
@@ -530,12 +533,14 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
                         e.printStackTrace();
                     }
 
-                    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                        @Override
-                        public void run() {
-                            tableRefresh();
-                        }
-                    });
+                    if(autoRefreshEnabled){
+                        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                tableRefresh();
+                            }
+                        });
+                    }
                 }
             }
         });
@@ -625,5 +630,6 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
     private javax.swing.JTextField txtKetIncome;
     private javax.swing.JTextField txtNominalExpense;
     private javax.swing.JTextField txtNominalIncome;
+    private boolean autoRefreshEnabled = true;
     // End of variables declaration                   
 }
