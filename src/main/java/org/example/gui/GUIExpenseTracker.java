@@ -1,12 +1,18 @@
+package org.example.gui;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
+import java.util.ArrayList;
 import java.util.Locale;
 import com.toedter.calendar.JCalendar;
 import javax.swing.JSpinner;
 import javax.swing.Timer;
 import javax.swing.event.ChangeListener;
+
+import org.example.facade.Category;
+import org.example.facade.Transaction;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -48,6 +54,18 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
+        ArrayList<Category> categories = new ArrayList<>();
+        categories.add(new Category("Konsumsi"));
+        categories.add(new Category("Transport"));
+        categories.add(new Category("Hiburan"));
+        categories.add(new Category("Kesehatan"));
+        categories.add(new Category("Kebutuhan"));
+        categories.add(new Category("Darurat"));
+
+        String[] catStrings = new String[categories.size()];
+        for(int i=0;i<catStrings.length;i++){
+            catStrings[i] = categories.get(i).getName();
+        }
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jDesktopPane1 = new javax.swing.JDesktopPane();
@@ -148,7 +166,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
 
         jLabel2.setText("Keterangan");
 
-        comboCatIncome.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Konsumsi", "Transport", "Kegiatan", "Hiburan", "Kesehatan", "Kebutuhan", "Darurat" }));
+        comboCatIncome.setModel(new javax.swing.DefaultComboBoxModel<>(catStrings));
 
         jLabel3.setText("Kategori");
 
@@ -252,7 +270,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
 
         jLabel9.setText("Kategori");
 
-        comboCatExpense.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Konsumsi", "Transport", "Kegiatan", "Hiburan", "Kesehatan", "Kebutuhan", "Darurat" }));
+        comboCatExpense.setModel(new javax.swing.DefaultComboBoxModel<>(catStrings));
 
         jLabel10.setText("Tanggal");
 
@@ -429,9 +447,29 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
         pack();
     }// </editor-fold>                        
 
-    private void buttonSaveIncomeActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-        // TODO add your handling code here:
+    private void buttonSaveIncomeActionPerformed(java.awt.event.ActionEvent evt) {   
+        String txTitle = txtKetIncome.getText();
+        Double txAmount = Double.parseDouble(txtNominalIncome.getText());
+        String txCategory = comboCatIncome.getSelectedItem().toString();
+        LocalDateTime txTime = LocalDateTime.now();
+        txTime = txTime.withHour(Integer.parseInt(spinnerJamIncome.toString())).withMinute(Integer.parseInt(spinnerMenitIncome.toString()));
+                
+        Transaction tx = new Transaction(txTitle, txAmount, txCategory, txTime);
     }                                                
+
+    private void buttonSaveExpenseActionPerformed(java.awt.event.ActionEvent evt) {                                                  
+        String txTitle = txtKetExpense.getText();
+        Double txAmount = Double.parseDouble(txtNominalExpense.getText())*(-1);
+        String txCategory = comboCatExpense.getSelectedItem().toString();
+        LocalDateTime txTime = LocalDateTime.now();
+        txTime = txTime.withHour(Integer.parseInt(spinnerJamExpense.toString())).withMinute(Integer.parseInt(spinnerMenitExpense.toString()));
+                
+        Transaction tx = new Transaction(txTitle, txAmount, txCategory, txTime);
+    }                                                 
+
+    private void buttonOkReportActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        // TODO add your handling code here:
+    } 
 
     private void txtKetExpenseActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
@@ -449,13 +487,6 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
         // TODO add your handling code here:
     }                                                
 
-    private void buttonSaveExpenseActionPerformed(java.awt.event.ActionEvent evt) {                                                  
-        // TODO add your handling code here:
-    }                                                 
-
-    private void buttonOkReportActionPerformed(java.awt.event.ActionEvent evt) {                                               
-        // TODO add your handling code here:
-    }                                              
 
     /**
      * @param args the command line arguments
