@@ -34,6 +34,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
 
     public GUIExpenseTracker() {
         initComponents();
+        startAutoRefresh();
         
         SpinnerNumberModel modelJamIncome = new SpinnerNumberModel(0, 0, 23, 1);
         spinnerJamIncome.setModel(modelJamIncome);
@@ -480,7 +481,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
 
         for(Transaction tx : txs){
             String txType = tx.getAmount() < 0 ? "Expense" : "Income"; 
-            Double txAmount = tx.getAmount() < 0 ? tx.getAmount() * -1 : tx.getAmount();
+            Double txAmount = tx.getAmount() < 0 ? tx.getAmount()*(-1) : tx.getAmount();
 
             Object[] data = {
                 tx.getCreatedAt(),
@@ -494,6 +495,53 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
         }
     } 
     
+    private void tableRefresh() {
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tableReport.getModel();
+        model.setRowCount(0);
+
+        List<Transaction> txs = Transaction.getHistory();
+        int MAX_LIMIT = txs.size() < 10 ? txs.size() : 10; 
+
+        for(int i=0;i<MAX_LIMIT;i++){
+            Transaction tx = txs.get(i);
+            String txType = tx.getAmount() < 0 ? "Expense" : "Income";
+            Double txAmount = tx.getAmount() < 0 ? tx.getAmount()*(-1) : tx.getAmount();
+
+            Object[] data = {
+                tx.getCreatedAt(),
+                tx.getTitle(),
+                tx.getCategoryName(),
+                txType,
+                txAmount
+            };
+
+            model.addRow(data);
+        }
+    }
+
+    public void startAutoRefresh() {
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            tableRefresh();
+                        }
+                    });
+                }
+            }
+        });
+
+        t.start();
+    }
 
     private void txtKetExpenseActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:
