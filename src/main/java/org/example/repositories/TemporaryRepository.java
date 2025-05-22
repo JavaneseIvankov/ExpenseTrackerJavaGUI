@@ -1,6 +1,7 @@
 package org.example.repositories;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 import org.example.models.CategoryModel;
 import org.example.models.TransactionModel;
@@ -43,12 +44,14 @@ public class TemporaryRepository implements IAppRepository {
    }
 
    @Override
-   public List<TransactionModel> getTransactions(LocalDateTime from, LocalDateTime until) {
+   public List<TransactionModel> getTransactions(Date from, Date until) {
+      LocalDateTime fromLocal = from.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+      LocalDateTime untilLocal = until.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
       List<TransactionModel> filtered = new ArrayList<>();
       for (TransactionModel t : transactions.values()) {
          LocalDateTime created = t.createdAt;
-         if ((created.isEqual(from) || created.isAfter(from))
-               && (created.isEqual(until) || created.isBefore(until))) {
+         if ((created.isEqual(fromLocal) || created.isAfter(untilLocal))
+               && (created.isEqual(untilLocal) || created.isBefore(untilLocal))) {
             filtered.add(t);
          }
       }
