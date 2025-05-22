@@ -378,6 +378,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
             }
         });
 
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -454,7 +455,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
         Double txAmount = Double.parseDouble(txtNominalIncome.getText());
         String txCategory = comboCatIncome.getSelectedItem().toString();
         LocalDateTime txTime = LocalDateTime.now();
-        txTime = txTime.withHour(Integer.parseInt(spinnerJamIncome.toString())).withMinute(Integer.parseInt(spinnerMenitIncome.toString()));
+        txTime = txTime.withHour(Integer.parseInt(spinnerJamIncome.getValue().toString())).withMinute(Integer.parseInt(spinnerMenitIncome.getValue().toString()));
                 
         Transaction tx = new Transaction(txTitle, txAmount, txCategory, txTime);
     }                                                
@@ -464,7 +465,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
         Double txAmount = Double.parseDouble(txtNominalExpense.getText())*(-1);
         String txCategory = comboCatExpense.getSelectedItem().toString();
         LocalDateTime txTime = LocalDateTime.now();
-        txTime = txTime.withHour(Integer.parseInt(spinnerJamExpense.toString())).withMinute(Integer.parseInt(spinnerMenitExpense.toString()));
+        txTime = txTime.withHour(Integer.parseInt(spinnerJamExpense.getValue().toString())).withMinute(Integer.parseInt(spinnerMenitExpense.getValue().toString()));
                 
         Transaction tx = new Transaction(txTitle, txAmount, txCategory, txTime);
     }                                                 
@@ -479,16 +480,20 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
 
         for(Transaction tx : txs){
             String txType = tx.getAmount() < 0 ? "Expense" : "Income"; 
+            Double txAmount = tx.getAmount() < 0 ? tx.getAmount() * -1 : tx.getAmount();
+
             Object[] data = {
                 tx.getCreatedAt(),
                 tx.getTitle(),
                 tx.getCategoryName(),
                 txType,
-                tx.getAmount()
+                txAmount
             };
-            model.addColumn(data);
+
+            model.addRow(data);
         }
     } 
+    
 
     private void txtKetExpenseActionPerformed(java.awt.event.ActionEvent evt) {                                              
         // TODO add your handling code here:

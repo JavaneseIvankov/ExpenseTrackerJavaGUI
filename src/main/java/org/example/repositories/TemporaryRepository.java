@@ -50,7 +50,7 @@ public class TemporaryRepository implements IAppRepository {
       List<TransactionModel> filtered = new ArrayList<>();
       for (TransactionModel t : transactions.values()) {
          LocalDateTime created = t.createdAt;
-         if ((created.isEqual(fromLocal) || created.isAfter(untilLocal))
+         if ((created.isEqual(fromLocal) || created.isAfter(fromLocal))
                && (created.isEqual(untilLocal) || created.isBefore(untilLocal))) {
             filtered.add(t);
          }
