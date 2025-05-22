@@ -1,11 +1,8 @@
 package org.example;
 
 import org.example.gui.GUIExpenseTracker;
-import org.example.repositories.IAppRepository;
 
 public class App {
-   static IAppRepository appRepo;
-
 
    public static void main(String[] args) {
       Context.initilize();
