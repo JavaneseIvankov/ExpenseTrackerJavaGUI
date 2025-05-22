@@ -512,7 +512,8 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
 
         Date from = dateChFrom.getDate();      
         Date to = dateChUntil.getDate();                     
-        List<Transaction> txs = Transaction.getHistory(from, to);
+        boolean valid = (from != null && to != null);
+        List<Transaction> txs = (valid) ? Transaction.getHistory(from, to) : Transaction.getHistory();
 
         for(Transaction tx : txs){
             String txType = tx.getAmount() < 0 ? "Expense" : "Income"; 
