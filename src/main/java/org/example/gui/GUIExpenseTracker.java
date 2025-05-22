@@ -458,6 +458,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
             if(txtNominalIncome.getText().isEmpty() || txtKetIncome.getText().isEmpty()){
                 throw new IOException("Terdapat data yang belum diisi!");
             } else if(txtNominalIncome.getText().charAt(0) == '-'){
+                txtNominalIncome.setText("");
                 throw new NumberFormatException("Nominal tidak boleh negatif.");
             } else {
                 Double txAmount = Double.parseDouble(txtNominalIncome.getText());
@@ -471,9 +472,9 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
                 txtKetIncome.setText("");
             }
         }catch(IOException e){
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e, "Input Error", JOptionPane.ERROR_MESSAGE);
         }catch(NumberFormatException e){
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e, "Input Error", JOptionPane.ERROR_MESSAGE);
         }
     }                                                
 
@@ -483,6 +484,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
             if(txtNominalExpense.getText().isEmpty() || txtKetExpense.getText().isEmpty()){
                 throw new IOException("Terdapat data yang belum diisi!");
             } else if(txtNominalExpense.getText().charAt(0) == '-'){
+                txtNominalExpense.setText("");
                 throw new NumberFormatException("Nominal tidak boleh negatif!");
             } else {
                 Double txAmount = Double.parseDouble(txtNominalExpense.getText())*(-1);
@@ -496,9 +498,9 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
                 txtKetExpense.setText("");
             }
         }catch(IOException e){
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e, "Input Error", JOptionPane.ERROR_MESSAGE);
         }catch(NumberFormatException e){
-            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog(null, e, "Input Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }                                                 
