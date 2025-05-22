@@ -1,5 +1,6 @@
 package org.example.gui;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
@@ -453,24 +454,53 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
 
     private void buttonSaveIncomeActionPerformed(java.awt.event.ActionEvent evt) {   
         if(!autoRefreshEnabled) autoRefreshEnabled = true;
-        String txTitle = txtKetIncome.getText();
-        Double txAmount = Double.parseDouble(txtNominalIncome.getText());
-        String txCategory = comboCatIncome.getSelectedItem().toString();
-        LocalDateTime txTime = LocalDateTime.now();
-        txTime = txTime.withHour(Integer.parseInt(spinnerJamIncome.getValue().toString())).withMinute(Integer.parseInt(spinnerMenitIncome.getValue().toString()));
-                
-        Transaction tx = new Transaction(txTitle, txAmount, txCategory, txTime);
+        try{
+            if(txtNominalIncome.getText().isEmpty() || txtKetIncome.getText().isEmpty()){
+                throw new IOException("Terdapat data yang belum diisi!");
+            } else if(txtNominalIncome.getText().charAt(0) == '-'){
+                throw new NumberFormatException("Nominal tidak boleh negatif.");
+            } else {
+                Double txAmount = Double.parseDouble(txtNominalIncome.getText());
+                String txTitle = txtKetIncome.getText();
+                String txCategory = comboCatIncome.getSelectedItem().toString();
+                LocalDateTime txTime = LocalDateTime.now();
+                txTime = txTime.withHour(Integer.parseInt(spinnerJamIncome.getValue().toString())).withMinute(Integer.parseInt(spinnerMenitIncome.getValue().toString()));
+                        
+                Transaction tx = new Transaction(txTitle, txAmount, txCategory, txTime);
+                txtNominalIncome.setText("");
+                txtKetIncome.setText("");
+            }
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }catch(NumberFormatException e){
+            System.out.println(e.getMessage());
+        }
     }                                                
 
     private void buttonSaveExpenseActionPerformed(java.awt.event.ActionEvent evt) {                                                  
         if(!autoRefreshEnabled) autoRefreshEnabled = true;
-        String txTitle = txtKetExpense.getText();
-        Double txAmount = Double.parseDouble(txtNominalExpense.getText())*(-1);
-        String txCategory = comboCatExpense.getSelectedItem().toString();
-        LocalDateTime txTime = LocalDateTime.now();
-        txTime = txTime.withHour(Integer.parseInt(spinnerJamExpense.getValue().toString())).withMinute(Integer.parseInt(spinnerMenitExpense.getValue().toString()));
-                
-        Transaction tx = new Transaction(txTitle, txAmount, txCategory, txTime);
+        try{
+            if(txtNominalExpense.getText().isEmpty() || txtKetExpense.getText().isEmpty()){
+                throw new IOException("Terdapat data yang belum diisi!");
+            } else if(txtNominalExpense.getText().charAt(0) == '-'){
+                throw new NumberFormatException("Nominal tidak boleh negatif!");
+            } else {
+                Double txAmount = Double.parseDouble(txtNominalExpense.getText())*(-1);
+                String txTitle = txtKetExpense.getText();
+                String txCategory = comboCatExpense.getSelectedItem().toString();
+                LocalDateTime txTime = LocalDateTime.now();
+                txTime = txTime.withHour(Integer.parseInt(spinnerJamExpense.getValue().toString())).withMinute(Integer.parseInt(spinnerMenitExpense.getValue().toString()));
+                    
+                Transaction tx = new Transaction(txTitle, txAmount, txCategory, txTime);
+                txtNominalExpense.setText("");
+                txtKetExpense.setText("");
+            }
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }catch(NumberFormatException e){
+            System.out.println(e.getMessage());
+        }
+
     }                                                 
 
     private void buttonOkReportActionPerformed(java.awt.event.ActionEvent evt) {
