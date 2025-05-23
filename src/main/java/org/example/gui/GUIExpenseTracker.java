@@ -470,6 +470,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
                 Transaction tx = new Transaction(txTitle, txAmount, txCategory, txTime);
                 txtNominalIncome.setText("");
                 txtKetIncome.setText("");
+                JOptionPane.showMessageDialog(null, "Income berhasil disimpan!", "Information Message", JOptionPane.INFORMATION_MESSAGE);
             }
         }catch(IOException e){
             JOptionPane.showMessageDialog(null, e, "Input Error", JOptionPane.ERROR_MESSAGE);
@@ -496,6 +497,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
                 Transaction tx = new Transaction(txTitle, txAmount, txCategory, txTime);
                 txtNominalExpense.setText("");
                 txtKetExpense.setText("");
+                JOptionPane.showMessageDialog(null, "Expense berhasil disimpan!", "Information Message", JOptionPane.INFORMATION_MESSAGE);
             }
         }catch(IOException e){
             JOptionPane.showMessageDialog(null, e, "Input Error", JOptionPane.ERROR_MESSAGE);
