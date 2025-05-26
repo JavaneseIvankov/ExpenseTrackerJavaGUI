@@ -1,5 +1,4 @@
 package org.example.gui;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -35,7 +34,6 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
 
     public GUIExpenseTracker() {
         initComponents();
-        startAutoRefresh();
         
         SpinnerNumberModel modelJamIncome = new SpinnerNumberModel(0, 0, 23, 1);
         spinnerJamIncome.setModel(modelJamIncome);
@@ -58,19 +56,6 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
-        ArrayList<Category> categories = new ArrayList<>();
-        categories.add(new Category("Konsumsi"));
-        categories.add(new Category("Transport"));
-        categories.add(new Category("Hiburan"));
-        categories.add(new Category("Kesehatan"));
-        categories.add(new Category("Kebutuhan"));
-        categories.add(new Category("Darurat"));
-
-        String[] catStrings = new String[categories.size()];
-        for(int i=0;i<catStrings.length;i++){
-            catStrings[i] = categories.get(i).getName();
-        }
-
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -453,84 +438,15 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
     }// </editor-fold>                        
 
     private void buttonSaveIncomeActionPerformed(java.awt.event.ActionEvent evt) {   
-        if(!autoRefreshEnabled) autoRefreshEnabled = true;
-        try{
-            if(txtNominalIncome.getText().isEmpty() || txtKetIncome.getText().isEmpty()){
-                throw new IOException("Terdapat data yang belum diisi!");
-            } else if(txtNominalIncome.getText().charAt(0) == '-'){
-                txtNominalIncome.setText("");
-                throw new NumberFormatException("Nominal tidak boleh negatif.");
-            } else {
-                Double txAmount = Double.parseDouble(txtNominalIncome.getText());
-                String txTitle = txtKetIncome.getText();
-                String txCategory = comboCatIncome.getSelectedItem().toString();
-                LocalDateTime txTime = LocalDateTime.now();
-                txTime = txTime.withHour(Integer.parseInt(spinnerJamIncome.getValue().toString())).withMinute(Integer.parseInt(spinnerMenitIncome.getValue().toString()));
-                        
-                Transaction tx = new Transaction(txTitle, txAmount, txCategory, txTime);
-                txtNominalIncome.setText("");
-                txtKetIncome.setText("");
-                JOptionPane.showMessageDialog(null, "Income berhasil disimpan!", "Information Message", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }catch(IOException e){
-            JOptionPane.showMessageDialog(null, e, "Input Error", JOptionPane.ERROR_MESSAGE);
-        }catch(NumberFormatException e){
-            JOptionPane.showMessageDialog(null, e, "Input Error", JOptionPane.ERROR_MESSAGE);
-        }
+        
     }                                                
 
     private void buttonSaveExpenseActionPerformed(java.awt.event.ActionEvent evt) {                                                  
-        if(!autoRefreshEnabled) autoRefreshEnabled = true;
-        try{
-            if(txtNominalExpense.getText().isEmpty() || txtKetExpense.getText().isEmpty()){
-                throw new IOException("Terdapat data yang belum diisi!");
-            } else if(txtNominalExpense.getText().charAt(0) == '-'){
-                txtNominalExpense.setText("");
-                throw new NumberFormatException("Nominal tidak boleh negatif!");
-            } else {
-                Double txAmount = Double.parseDouble(txtNominalExpense.getText())*(-1);
-                String txTitle = txtKetExpense.getText();
-                String txCategory = comboCatExpense.getSelectedItem().toString();
-                LocalDateTime txTime = LocalDateTime.now();
-                txTime = txTime.withHour(Integer.parseInt(spinnerJamExpense.getValue().toString())).withMinute(Integer.parseInt(spinnerMenitExpense.getValue().toString()));
-                    
-                Transaction tx = new Transaction(txTitle, txAmount, txCategory, txTime);
-                txtNominalExpense.setText("");
-                txtKetExpense.setText("");
-                JOptionPane.showMessageDialog(null, "Expense berhasil disimpan!", "Information Message", JOptionPane.INFORMATION_MESSAGE);
-            }
-        }catch(IOException e){
-            JOptionPane.showMessageDialog(null, e, "Input Error", JOptionPane.ERROR_MESSAGE);
-        }catch(NumberFormatException e){
-            JOptionPane.showMessageDialog(null, e, "Input Error", JOptionPane.ERROR_MESSAGE);
-        }
-
+        
     }                                                 
 
     private void buttonOkReportActionPerformed(java.awt.event.ActionEvent evt) {
-        autoRefreshEnabled = false;
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tableReport.getModel();
-        model.setRowCount(0);
-
-        Date from = dateChFrom.getDate();      
-        Date to = dateChUntil.getDate();                     
-        boolean valid = (from != null && to != null);
-        List<Transaction> txs = (valid) ? Transaction.getHistory(from, to) : Transaction.getHistory();
-
-        for(Transaction tx : txs){
-            String txType = tx.getAmount() < 0 ? "Expense" : "Income"; 
-            Double txAmount = tx.getAmount() < 0 ? tx.getAmount()*(-1) : tx.getAmount();
-
-            Object[] data = {
-                tx.getCreatedAt(),
-                tx.getTitle(),
-                tx.getCategoryName(),
-                txType,
-                txAmount
-            };
-
-            model.addRow(data);
-        }
+       
     } 
     
     private void tableRefresh() {
