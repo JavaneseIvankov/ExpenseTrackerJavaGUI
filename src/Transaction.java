@@ -1,13 +1,13 @@
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public abstract class Transaction {
     String txTitle;
     String txCategory;
     String txType;
     Double txNominal;
-    LocalDateTime txTime;
+    LocalDate txTime;
 
-    public Transaction(String txTitle, String txCategory, Double txNominal, LocalDateTime txTime){
+    public Transaction(String txTitle, String txCategory, Double txNominal, LocalDate txTime){
         this.txTitle = txTitle;
         this.txCategory = txCategory;
         this.txNominal = txNominal;
@@ -31,7 +31,7 @@ public abstract class Transaction {
         return txNominal;
     }
 
-    public LocalDateTime getTime(){
+    public LocalDate getTime(){
         return txTime;
     }
 
@@ -51,7 +51,7 @@ public abstract class Transaction {
         this.txNominal = txNominal;
     }
 
-    public void setTime(LocalDateTime txTime){
+    public void setTime(LocalDate txTime){
         this.txTime = txTime;
     }
 }

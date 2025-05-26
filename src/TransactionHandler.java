@@ -14,20 +14,20 @@ public class TransactionHandler {
         Double txAmount = tx.getNominal();
         String txTimeStr = tx.getTime().toString();
         String txType = tx.getType();
-        return String.format("%s, %f, %s, %s, %s", txTitle, txAmount, txCategory, txType, txTimeStr);
+        return String.format("%s, %s, %s, %s, %.2f\n", txTimeStr, txTitle, txCategory, txType, txAmount);
     }
 
-    public static void writeToFile(Transaction tx){
+    public static void saveTransaction(Transaction tx){
         String str = formatStr(tx);
 
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(path, true))){
             writer.write(str);
         } catch (IOException e){
-            System.out.println(e.getMessage());
+            GUIExpenseTracker.showErrorMessageDialog(e.getMessage());
         }
     }
 
-    public static ArrayList<String> readFromFile(){
+    public static ArrayList<String> getTransactions(){
         ArrayList<String> res = new ArrayList<>();
         String str;
 
@@ -36,22 +36,25 @@ public class TransactionHandler {
                 res.add(str);
             }
         } catch (IOException e){
-            System.out.println(e.getMessage());
+            GUIExpenseTracker.showErrorMessageDialog(e.getMessage());
         }
 
         return res;
     }
 
-    public static ArrayList<String> readWithDate(String from, String to){
+    public static ArrayList<String> getTransactions(String from, String to){
         ArrayList<String> res = new ArrayList<>();
         String str;
 
         try(BufferedReader reader = new BufferedReader(new FileReader(path))){
             while((str = reader.readLine()) != null){
-                res.add(str);
+                String[] strDetail = str.split(", ");
+                if(strDetail[0].compareTo(from) >= 0 && strDetail[0].compareTo(to) <= 0){
+                    res.add(str);
+                }
             }
         } catch (IOException e){
-            System.out.println(e.getMessage());
+            GUIExpenseTracker.showErrorMessageDialog(e.getMessage());
         }
 
         return res;
