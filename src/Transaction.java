@@ -1,6 +1,9 @@
+import java.time.LocalDateTime;
+
 public abstract class Transaction {
     String txTitle;
     String txCategory;
+    String txType;
     Double txNominal;
     LocalDateTime txTime;
 
@@ -9,6 +12,7 @@ public abstract class Transaction {
         this.txCategory = txCategory;
         this.txNominal = txNominal;
         this.txTime = txTime;
+        this.txType = "-";
     }
 
     public String getTitle(){
@@ -17,6 +21,10 @@ public abstract class Transaction {
 
     public String getCategory(){
         return txCategory;
+    }
+
+    public String getType(){
+        return txType;
     }
 
     public Double getNominal(){
@@ -33,6 +41,10 @@ public abstract class Transaction {
 
     public void setCategory(String txCategory){
         this.txCategory = txCategory;
+    }
+
+    public void setType(String txType){
+        this.txType = txType;
     }
 
     public void setNominal(Double txNominal){

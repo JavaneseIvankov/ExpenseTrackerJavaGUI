@@ -1,4 +1,3 @@
-package org.example.gui;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,9 +11,6 @@ import com.toedter.calendar.JCalendar;
 import javax.swing.JSpinner;
 import javax.swing.Timer;
 import javax.swing.event.ChangeListener;
-
-import org.example.facade.Category;
-import org.example.facade.Transaction;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -155,7 +151,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
 
         jLabel2.setText("Keterangan");
 
-        comboCatIncome.setModel(new javax.swing.DefaultComboBoxModel<>(catStrings));
+        comboCatIncome.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Konsumsi", "Transport", "Hiburan", "Kesehatan", "Kebutuhan", "Darurat" }));
 
         jLabel3.setText("Kategori");
 
@@ -259,7 +255,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
 
         jLabel9.setText("Kategori");
 
-        comboCatExpense.setModel(new javax.swing.DefaultComboBoxModel<>(catStrings));
+        comboCatExpense.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Konsumsi", "Transport", "Hiburan", "Kesehatan", "Kebutuhan", "Darurat" }));
 
         jLabel10.setText("Tanggal");
 
@@ -450,53 +446,53 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
     } 
     
     private void tableRefresh() {
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tableReport.getModel();
-        model.setRowCount(0);
+        // javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tableReport.getModel();
+        // model.setRowCount(0);
 
-        List<Transaction> txs = Transaction.getHistory();
-        int MAX_LIMIT = txs.size() < 10 ? txs.size() : 10; 
+        // List<Transaction> txs = Transaction.getHistory();
+        // int MAX_LIMIT = txs.size() < 10 ? txs.size() : 10; 
 
-        for(int i=0;i<MAX_LIMIT;i++){
-            Transaction tx = txs.get(i);
-            String txType = tx.getAmount() < 0 ? "Expense" : "Income";
-            Double txAmount = tx.getAmount() < 0 ? tx.getAmount()*(-1) : tx.getAmount();
+        // for(int i=0;i<MAX_LIMIT;i++){
+        //     Transaction tx = txs.get(i);
+        //     String txType = tx.getAmount() < 0 ? "Expense" : "Income";
+        //     Double txAmount = tx.getAmount() < 0 ? tx.getAmount()*(-1) : tx.getAmount();
 
-            Object[] data = {
-                tx.getCreatedAt(),
-                tx.getTitle(),
-                tx.getCategoryName(),
-                txType,
-                txAmount
-            };
+        //     Object[] data = {
+        //         tx.getCreatedAt(),
+        //         tx.getTitle(),
+        //         tx.getCategoryName(),
+        //         txType,
+        //         txAmount
+        //     };
 
-            model.addRow(data);
-        }
+        //     model.addRow(data);
+        // }
     }
 
     public void startAutoRefresh() {
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        // Thread t = new Thread(new Runnable() {
+        //     @Override
+        //     public void run() {
+        //         while (true) {
+        //             try {
+        //                 Thread.sleep(2000);
+        //             } catch (InterruptedException e) {
+        //                 e.printStackTrace();
+        //             }
 
-                    if(autoRefreshEnabled){
-                        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                tableRefresh();
-                            }
-                        });
-                    }
-                }
-            }
-        });
+        //             if(autoRefreshEnabled){
+        //                 javax.swing.SwingUtilities.invokeLater(new Runnable() {
+        //                     @Override
+        //                     public void run() {
+        //                         tableRefresh();
+        //                     }
+        //                 });
+        //             }
+        //         }
+        //     }
+        // });
 
-        t.start();
+        // t.start();
     }
 
     private void txtKetExpenseActionPerformed(java.awt.event.ActionEvent evt) {                                              
