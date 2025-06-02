@@ -74,8 +74,15 @@ public class TransactionHandler {
             String[] strDetail = str.split(", ");
             String dataDate = strDetail[0];
             String dataUserName = strDetail[5].strip();
-            if (dataDate.compareTo(from) >= 0 && dataDate.compareTo(to) <= 0
-                  && dataUserName.equals(userName)) {
+
+            boolean filter = true;
+            filter = (from != null) ? filter && dataDate.compareTo(from) >= 0 : true;
+            filter = (to != null) ? filter && dataDate.compareTo(to) <= 0 : true;
+            filter = (userName != null && !userName.isEmpty() && !userName.isBlank())
+                  ? filter && dataUserName.equals(userName)
+                  : true;
+
+            if (filter) {
                res.add(str);
             }
          }
