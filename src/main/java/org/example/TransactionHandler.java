@@ -16,8 +16,10 @@ public class TransactionHandler {
       Double txAmount = tx.getNominal();
       String txTimeStr = tx.getTime().toString();
       String txType = tx.getType();
-      return String.format("%s, %s, %s, %s, %.2f\n", txTimeStr, txTitle, txCategory, txType,
-            txAmount);
+      User txUser = tx.getUser();
+      String userName = txUser.getName();
+      return String.format("%s, %s, %s, %s, %.2f, %s\n", txTimeStr, txTitle, txCategory, txType,
+            txAmount, userName);
    }
 
    public static void saveTransaction(Transaction tx) {
@@ -62,4 +64,26 @@ public class TransactionHandler {
 
       return res;
    }
+
+   public static ArrayList<String> getTransactions(String from, String to, String userName) {
+      ArrayList<String> res = new ArrayList<>();
+      String str;
+
+      try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+         while ((str = reader.readLine()) != null) {
+            String[] strDetail = str.split(", ");
+            String dataDate = strDetail[0];
+            String dataUserName = strDetail[5].strip();
+            if (dataDate.compareTo(from) >= 0 && dataDate.compareTo(to) <= 0
+                  && dataUserName.equals(userName)) {
+               res.add(str);
+            }
+         }
+      } catch (IOException e) {
+         GUIExpenseTracker.showErrorMessageDialog(e.getMessage());
+      }
+
+      return res;
+   }
+
 }

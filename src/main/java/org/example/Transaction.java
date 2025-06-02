@@ -3,6 +3,7 @@ package org.example;
 import java.time.LocalDate;
 
 public abstract class Transaction {
+   User user;
    String txTitle;
    String txCategory;
    String txType;
@@ -15,6 +16,12 @@ public abstract class Transaction {
       this.txNominal = txNominal;
       this.txTime = txTime;
       this.txType = "-";
+   }
+
+   public Transaction(String txTitle, String txCategory, Double txNominal, LocalDate txTime,
+         User user) {
+      this(txTitle, txCategory, txNominal, txTime);
+      this.user = user;
    }
 
    public String getTitle() {
@@ -37,6 +44,10 @@ public abstract class Transaction {
       return txTime;
    }
 
+   public User getUser() {
+      return this.user;
+   }
+
    public void setTitle(String txTitle) {
       this.txTitle = txTitle;
    }
@@ -55,5 +66,9 @@ public abstract class Transaction {
 
    public void setTime(LocalDate txTime) {
       this.txTime = txTime;
+   }
+
+   public void setUser(User user) {
+      this.user = user;
    }
 }
