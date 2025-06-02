@@ -1,4 +1,4 @@
-package org.example;
+package main.java.org.example;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -73,12 +73,12 @@ public class TransactionHandler {
          while ((str = reader.readLine()) != null) {
             String[] strDetail = str.split(", ");
             String dataDate = strDetail[0];
-            String dataUserName = strDetail[5].strip();
+            String dataUserName = strDetail[5].trim();
 
             boolean filter = true;
             filter = (from != null) ? filter && dataDate.compareTo(from) >= 0 : true;
             filter = (to != null) ? filter && dataDate.compareTo(to) <= 0 : true;
-            filter = (userName != null && !userName.isEmpty() && !userName.isBlank())
+            filter = (userName != null && !userName.isEmpty() && !userName.isEmpty())
                   ? filter && dataUserName.equals(userName)
                   : true;
 

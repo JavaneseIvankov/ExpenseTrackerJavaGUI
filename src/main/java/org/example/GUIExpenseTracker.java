@@ -1,4 +1,4 @@
-package org.example;
+package main.java.org.example;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -388,7 +388,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
    private void buttonSaveTrxActionPerformed(java.awt.event.ActionEvent evt) {
       try {
          String chosenType = comTypeTrx.getSelectedItem().toString();
-         String txUserName = txtUser.getText().strip();
+         String txUserName = txtUser.getText().trim();
          String txTitle = txtKetIncome.getText();
          String txCategory = comboCat.getSelectedItem().toString();
          Double txNominal = Double.parseDouble(txtNominalTrx.getText());
@@ -448,7 +448,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
 
    private void buttonSaveExpenseActionPerformed(java.awt.event.ActionEvent evt) {
       try {
-         String txtUserName = txtUser.getText().strip();
+         String txtUserName = txtUser.getText().trim();
          String txTitle = txtKetExpense.getText();
          String txCategory = comboCatExpense.getSelectedItem().toString();
          Double txNominal = Double.parseDouble(txtNominalExpense.getText());
@@ -506,7 +506,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
       Date to = dateChUntil.getDate();
       String userName = txtUserNameSearch.getText();
 
-      if (userName.isBlank()) {
+      if (userName.isEmpty()) {
          showErrorMessageDialog("Masukan nama yang valid untuk filtering!");
          return;
       }
