@@ -4,15 +4,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
-import javax.swing.ComboBoxModel;
 import javax.swing.JOptionPane;
-import javax.swing.SpinnerNumberModel;
-import com.toedter.calendar.JCalendar;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionEvent;
-import javax.swing.JSpinner;
-import javax.swing.Timer;
-import javax.swing.event.ChangeListener;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this
@@ -50,21 +42,10 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
    private void initComponents() {
 
-      jTabbedPane1 = new javax.swing.JTabbedPane();
       jDesktopPane1 = new javax.swing.JDesktopPane();
       jComboBox1 = new javax.swing.JComboBox<>();
-      jSpinner2 = new javax.swing.JSpinner();
       jButton2 = new javax.swing.JButton();
-      jSpinner1 = new javax.swing.JSpinner();
       jDesktopPane2 = new javax.swing.JDesktopPane();
-      dateChooserPanel1 = new com.toedter.calendar.demo.DateChooserPanel();
-      dateChooserPanelBeanInfo1 = new com.toedter.calendar.demo.DateChooserPanelBeanInfo();
-      dateUtil1 = new com.toedter.calendar.DateUtil();
-      demoTable1 = new com.toedter.calendar.demo.DemoTable();
-      jCalendarBeanInfo1 = new com.toedter.calendar.JCalendarBeanInfo();
-      jDateChooser1 = new com.toedter.calendar.JDateChooser();
-      jDateChooserBeanInfo1 = new com.toedter.calendar.JDateChooserBeanInfo();
-      jDateChooserCellEditor1 = new com.toedter.calendar.JDateChooserCellEditor();
       tabbepPane3 = new javax.swing.JTabbedPane();
       jPanel2 = new javax.swing.JPanel();
       jLabel1 = new javax.swing.JLabel();
@@ -89,9 +70,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
       jLabel10 = new javax.swing.JLabel();
       jLabel11 = new javax.swing.JLabel();
       jLabel12 = new javax.swing.JLabel();
-      spinnerJamExpense = new javax.swing.JSpinner();
       jLabel13 = new javax.swing.JLabel();
-      spinnerMenitExpense = new javax.swing.JSpinner();
       buttonSaveExpense = new javax.swing.JButton();
       jPanel4 = new javax.swing.JPanel();
       jScrollPane1 = new javax.swing.JScrollPane();
@@ -102,7 +81,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
       dateChUntil = new com.toedter.calendar.JDateChooser();
       buttonOkReport = new javax.swing.JButton();
       jLabel6 = new javax.swing.JLabel();
-      txtSearch = new javax.swing.JTextField();
+      txtUserNameSearch = new javax.swing.JTextField();
 
       javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
       jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -302,7 +281,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
          }
       });
 
-      jLabel6.setText("Cari");
+      jLabel6.setText("Nama User");
 
       javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
       jPanel4.setLayout(jPanel4Layout);
@@ -336,7 +315,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
                               .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                               .addComponent(dateChFrom, javax.swing.GroupLayout.DEFAULT_SIZE, 130,
                                     Short.MAX_VALUE)
-                              .addComponent(txtSearch))
+                              .addComponent(txtUserNameSearch))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
                               javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 43,
@@ -349,7 +328,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
                   .addGroup(jPanel4Layout.createSequentialGroup().addGap(32, 32, 32)
                         .addGroup(jPanel4Layout
                               .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                              .addComponent(jLabel6).addComponent(txtSearch,
+                              .addComponent(jLabel6).addComponent(txtUserNameSearch,
                                     javax.swing.GroupLayout.PREFERRED_SIZE,
                                     javax.swing.GroupLayout.DEFAULT_SIZE,
                                     javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -445,27 +424,27 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
       }
    }
 
-   private void buttonSaveIncomeActionPerformed(java.awt.event.ActionEvent evt) {
-      try {
-         String txUserName = txtUser.getText().strip();
-         String txTitle = txtKetIncome.getText();
-         String txCategory = comboCat.getSelectedItem().toString();
-         Double txNominal = Double.parseDouble(txtNominalTrx.getText());
-         if (txNominal < 0) {
-            throw new NumberFormatException();
-         }
-         LocalDate now = LocalDate.now();
+   // private void buttonSaveIncomeActionPerformed(java.awt.event.ActionEvent evt) {
+   // try {
+   // String txUserName = txtUser.getText().strip();
+   // String txTitle = txtKetIncome.getText();
+   // String txCategory = comboCat.getSelectedItem().toString();
+   // Double txNominal = Double.parseDouble(txtNominalTrx.getText());
+   // if (txNominal < 0) {
+   // throw new NumberFormatException();
+   // }
+   // LocalDate now = LocalDate.now();
 
-         User user = new User(txUserName);
-         Transaction txIncome = new Income(txTitle, txCategory, txNominal, now, user);
-         TransactionHandler.saveTransaction(txIncome);
-         showInformationMessageDialog("Transaksi berhasil disimpan!");
-         txtKetIncome.setText("");
-         txtNominalTrx.setText("");
-      } catch (NumberFormatException e) {
-         showErrorMessageDialog("Masukkan nominal yang sesuai!");
-      }
-   }
+   // User user = new User(txUserName);
+   // Transaction txIncome = new Income(txTitle, txCategory, txNominal, now, user);
+   // TransactionHandler.saveTransaction(txIncome);
+   // showInformationMessageDialog("Transaksi berhasil disimpan!");
+   // txtKetIncome.setText("");
+   // txtNominalTrx.setText("");
+   // } catch (NumberFormatException e) {
+   // showErrorMessageDialog("Masukkan nominal yang sesuai!");
+   // }
+   // }
 
    private void buttonSaveExpenseActionPerformed(java.awt.event.ActionEvent evt) {
       try {
@@ -496,8 +475,10 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
       ArrayList<String> txs;
 
       if (from == null || until == null) {
-         txs = TransactionHandler.getTransactions();
+         System.out.println("nulll branch");
+         txs = TransactionHandler.getTransactions(null, null, userName);
       } else {
+         System.out.println("enggak null");
          SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
          Date dateFrom = from;
@@ -521,9 +502,21 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
       javax.swing.table.DefaultTableModel model =
             (javax.swing.table.DefaultTableModel) tableReport.getModel();
       model.setRowCount(0);
+      Date from = dateChFrom.getDate();
+      Date to = dateChUntil.getDate();
+      String userName = txtUserNameSearch.getText();
 
-      // TODO: Ganti budi dgn variabel
-      populateReportTable(dateChFrom.getDate(), dateChUntil.getDate(), "Budi");
+      if (userName.isBlank()) {
+         showErrorMessageDialog("Masukan nama yang valid untuk filtering!");
+         return;
+      }
+
+      if (from != null && to != null && to.before(from)) {
+         showErrorMessageDialog("Masukan rentang tanggal yang valid!");
+         return;
+      }
+
+      populateReportTable(from, to, userName);
    }
 
    protected static void showErrorMessageDialog(String message) {
@@ -554,17 +547,9 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
    private javax.swing.JComboBox<String> comboCatExpense;
    private com.toedter.calendar.JDateChooser dateChFrom;
    private com.toedter.calendar.JDateChooser dateChUntil;
-   private com.toedter.calendar.demo.DateChooserPanel dateChooserPanel1;
-   private com.toedter.calendar.demo.DateChooserPanelBeanInfo dateChooserPanelBeanInfo1;
    private com.toedter.calendar.JDateChooser dateTrx;
-   private com.toedter.calendar.DateUtil dateUtil1;
-   private com.toedter.calendar.demo.DemoTable demoTable1;
    private javax.swing.JButton jButton2;
-   private com.toedter.calendar.JCalendarBeanInfo jCalendarBeanInfo1;
    private javax.swing.JComboBox<String> jComboBox1;
-   private com.toedter.calendar.JDateChooser jDateChooser1;
-   private com.toedter.calendar.JDateChooserBeanInfo jDateChooserBeanInfo1;
-   private com.toedter.calendar.JDateChooserCellEditor jDateChooserCellEditor1;
    private javax.swing.JDesktopPane jDesktopPane1;
    private javax.swing.JDesktopPane jDesktopPane2;
    private javax.swing.JLabel jLabel1;
@@ -586,18 +571,13 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
    private javax.swing.JPanel jPanel2;
    private javax.swing.JPanel jPanel4;
    private javax.swing.JScrollPane jScrollPane1;
-   private javax.swing.JSpinner jSpinner1;
-   private javax.swing.JSpinner jSpinner2;
-   private javax.swing.JTabbedPane jTabbedPane1;
-   private javax.swing.JSpinner spinnerJamExpense;
-   private javax.swing.JSpinner spinnerMenitExpense;
    private javax.swing.JTabbedPane tabbepPane3;
    private javax.swing.JTable tableReport;
    private javax.swing.JTextField txtKetExpense;
    private javax.swing.JTextField txtKetIncome;
    private javax.swing.JTextField txtNominalExpense;
    private javax.swing.JTextField txtNominalTrx;
-   private javax.swing.JTextField txtSearch;
+   private javax.swing.JTextField txtUserNameSearch;
    private javax.swing.JTextField txtUser;
    // End of variables declaration//GEN-END:variables
 }
