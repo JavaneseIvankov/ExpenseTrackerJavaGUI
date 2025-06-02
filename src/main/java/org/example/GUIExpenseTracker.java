@@ -44,6 +44,8 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
 
       SpinnerNumberModel modelMenitExpense = new SpinnerNumberModel(0, 0, 59, 1);
       spinnerMenitExpense.setModel(modelMenitExpense);
+
+      populateReportTable(null, null, null);
    }
 
    /**
@@ -520,24 +522,24 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
       }
    }
 
-   private void buttonOkReportActionPerformed(java.awt.event.ActionEvent evt) {
+   private void populateReportTable(Date from, Date until, String userName) {
       javax.swing.table.DefaultTableModel model =
             (javax.swing.table.DefaultTableModel) tableReport.getModel();
       model.setRowCount(0);
       ArrayList<String> txs;
 
-      if (dateChFrom.getDate() == null || dateChUntil.getDate() == null) {
+      if (from == null || until == null) {
          txs = TransactionHandler.getTransactions();
       } else {
          SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-         Date dateFrom = dateChFrom.getDate();
-         String from = dateFormat.format(dateFrom);
+         Date dateFrom = from;
+         String _from = dateFormat.format(dateFrom);
 
-         Date dateTo = dateChUntil.getDate();
-         String to = dateFormat.format(dateTo);
+         Date dateTo = until;
+         String _until = dateFormat.format(dateTo);
 
-         txs = TransactionHandler.getTransactions(from, to);
+         txs = TransactionHandler.getTransactions(_from, _until);
       }
 
       for (String tx : txs) {
@@ -545,6 +547,15 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
          Object[] newRow = {txDetails[0], txDetails[1], txDetails[2], txDetails[3], txDetails[4]};
          model.addRow(newRow);
       }
+   }
+
+   private void buttonOkReportActionPerformed(java.awt.event.ActionEvent evt) {
+      javax.swing.table.DefaultTableModel model =
+            (javax.swing.table.DefaultTableModel) tableReport.getModel();
+      model.setRowCount(0);
+
+      // TODO: Ganti budi dgn variabel
+      populateReportTable(dateChFrom.getDate(), dateChUntil.getDate(), "Budi");
    }
 
    protected static void showErrorMessageDialog(String message) {
