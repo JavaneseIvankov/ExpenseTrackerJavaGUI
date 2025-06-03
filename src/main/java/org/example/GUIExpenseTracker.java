@@ -324,7 +324,19 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonOkReportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOkReportActionPerformed
-        // TODO add your handling code here:
+        javax.swing.table.DefaultTableModel model =
+            (javax.swing.table.DefaultTableModel) tableReport.getModel();
+        model.setRowCount(0);
+        Date from = dateChFrom.getDate();
+        Date to = dateChUntil.getDate();
+        String userName = txtSearch.getText().trim();
+
+        if (from != null && to != null && to.before(from)) {
+            showErrorMessageDialog("Masukan rentang tanggal yang valid!");
+            return;
+        }
+
+        populateReportTable(from, to, userName);
     }//GEN-LAST:event_buttonOkReportActionPerformed
 
     private void txtUserTrxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserTrxActionPerformed
@@ -332,7 +344,17 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
     }//GEN-LAST:event_txtUserTrxActionPerformed
 
     private void btnSaveTrxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveTrxActionPerformed
-        // TODO add your handling code here:
+        try {
+            String chosenType = comTypeTrx.getSelectedItem().toString();
+            String txUserName = txtUserTrx.getText().trim();
+            String txTitle = txtNominalTrx.getText();
+            String txCategory = comboCat.getSelectedItem().toString();
+            Double txNominal = Double.parseDouble(txtNominalTrx.getText());
+            saveTrx(chosenType, txUserName, txTitle, txCategory, txNominal);
+            populateReportTable(null, null, txUserName);
+        } catch (NumberFormatException e) {
+            showErrorMessageDialog("Masukkan nominal yang sesuai!");
+        }
     }//GEN-LAST:event_btnSaveTrxActionPerformed
 
     private void txtKetTrxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtKetTrxActionPerformed
@@ -366,21 +388,6 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
       }
    }
 
-
-   private void buttonSaveTrxActionPerformed(java.awt.event.ActionEvent evt) {
-      try {
-         String chosenType = comTypeTrx.getSelectedItem().toString();
-         String txUserName = txtUser.getText().trim();
-         String txTitle = txtKetIncome.getText();
-         String txCategory = comboCat.getSelectedItem().toString();
-         Double txNominal = Double.parseDouble(txtNominalTrx.getText());
-         saveTrx(chosenType, txUserName, txTitle, txCategory, txNominal);
-         populateReportTable(null, null, txUserName);
-      } catch (NumberFormatException e) {
-         showErrorMessageDialog("Masukkan nominal yang sesuai!");
-      }
-   }
-
    private void saveTrx(String trxType, String username, String title, String category,
          double nominal) {
       try {
@@ -399,52 +406,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
          }
          TransactionHandler.saveTransaction(txIncome);
          showInformationMessageDialog("Transaksi berhasil disimpan!");
-         txtKetIncome.setText("");
          txtNominalTrx.setText("");
-      } catch (NumberFormatException e) {
-         showErrorMessageDialog("Masukkan nominal yang sesuai!");
-      }
-   }
-
-   // private void buttonSaveIncomeActionPerformed(java.awt.event.ActionEvent evt) {
-   // try {
-   // String txUserName = txtUser.getText().strip();
-   // String txTitle = txtKetIncome.getText();
-   // String txCategory = comboCat.getSelectedItem().toString();
-   // Double txNominal = Double.parseDouble(txtNominalTrx.getText());
-   // if (txNominal < 0) {
-   // throw new NumberFormatException();
-   // }
-   // LocalDate now = LocalDate.now();
-
-   // User user = new User(txUserName);
-   // Transaction txIncome = new Income(txTitle, txCategory, txNominal, now, user);
-   // TransactionHandler.saveTransaction(txIncome);
-   // showInformationMessageDialog("Transaksi berhasil disimpan!");
-   // txtKetIncome.setText("");
-   // txtNominalTrx.setText("");
-   // } catch (NumberFormatException e) {
-   // showErrorMessageDialog("Masukkan nominal yang sesuai!");
-   // }
-   // }
-
-   private void buttonSaveExpenseActionPerformed(java.awt.event.ActionEvent evt) {
-      try {
-         String txtUserName = txtUser.getText().trim();
-         String txTitle = txtKetExpense.getText();
-         String txCategory = comboCatExpense.getSelectedItem().toString();
-         Double txNominal = Double.parseDouble(txtNominalExpense.getText());
-         if (txNominal < 0) {
-            throw new NumberFormatException();
-         }
-         LocalDate now = LocalDate.now();
-
-         User user = new User(txtUserName);
-         Transaction txExpense = new Expense(txTitle, txCategory, txNominal, now, user);
-         TransactionHandler.saveTransaction(txExpense);
-         showInformationMessageDialog("Transaksi berhasil disimpan!");
-         txtKetExpense.setText("");
-         txtNominalExpense.setText("");
       } catch (NumberFormatException e) {
          showErrorMessageDialog("Masukkan nominal yang sesuai!");
       }
@@ -457,8 +419,10 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
       ArrayList<String> txs;
 
       if (from == null || until == null) {
+        System.out.println("masuk null");
          txs = TransactionHandler.getTransactions(null, null, userName);
       } else {
+        System.out.println("masuk sini");
          SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
          Date dateFrom = from;
@@ -476,22 +440,6 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
                {txDetails[0], txDetails[1], txDetails[2], txDetails[3], txDetails[4], txDetails[5]};
          model.addRow(newRow);
       }
-   }
-
-   private void buttonOkReportActionPerformed(java.awt.event.ActionEvent evt) {
-      javax.swing.table.DefaultTableModel model =
-            (javax.swing.table.DefaultTableModel) tableReport.getModel();
-      model.setRowCount(0);
-      Date from = dateChFrom.getDate();
-      Date to = dateChUntil.getDate();
-      String userName = txtUserNameSearch.getText().trim();
-
-      if (from != null && to != null && to.before(from)) {
-         showErrorMessageDialog("Masukan rentang tanggal yang valid!");
-         return;
-      }
-
-      populateReportTable(from, to, userName);
    }
 
    protected static void showErrorMessageDialog(String message) {
