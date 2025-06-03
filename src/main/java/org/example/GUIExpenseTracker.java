@@ -475,10 +475,8 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
       ArrayList<String> txs;
 
       if (from == null || until == null) {
-         System.out.println("nulll branch");
          txs = TransactionHandler.getTransactions(null, null, userName);
       } else {
-         System.out.println("enggak null");
          SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
          Date dateFrom = from;
@@ -504,12 +502,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
       model.setRowCount(0);
       Date from = dateChFrom.getDate();
       Date to = dateChUntil.getDate();
-      String userName = txtUserNameSearch.getText();
-
-      if (userName.isEmpty()) {
-         showErrorMessageDialog("Masukan nama yang valid untuk filtering!");
-         return;
-      }
+      String userName = txtUserNameSearch.getText().trim();
 
       if (from != null && to != null && to.before(from)) {
          showErrorMessageDialog("Masukan rentang tanggal yang valid!");
