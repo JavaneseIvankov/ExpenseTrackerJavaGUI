@@ -1,16 +1,22 @@
-package main.java.org.example;
+package org.example;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class TransactionHandler {
    static String path = "data.txt";
 
    private static String formatStr(Transaction tx) {
+      String txId = tx.getId();
       String txTitle = tx.getTitle();
       String txCategory = tx.getCategory();
       Double txAmount = tx.getNominal();
@@ -18,12 +24,35 @@ public class TransactionHandler {
       String txType = tx.getType();
       User txUser = tx.getUser();
       String userName = txUser.getName();
-      return String.format("%s, %s, %s, %s, %.2f, %s\n", txTimeStr, txTitle, txCategory, txType,
-            txAmount, userName);
+      return String.format("%s, %s, %s, %s, %s, %.2f, %s\n", txId, txTimeStr, txTitle, txCategory,
+            txType, txAmount, userName);
+   }
+
+   public static void deleteTransaction(String id) {
+      ArrayList<String> txs = getTransactions();
+      boolean found = false;
+
+      try (BufferedWriter writer = new BufferedWriter(new FileWriter(path))) {
+         for (String tx : txs) {
+            String[] details = tx.split(", ");
+            if (!details[0].equals(id)) {
+               writer.write(tx + "\n");
+            } else {
+               found = true;
+            }
+         }
+      } catch (IOException e) {
+         GUIExpenseTracker.showErrorMessageDialog(e.getMessage());
+      }
+
+      if (!found) {
+         GUIExpenseTracker.showErrorMessageDialog("Transaction with ID " + id + " not found.");
+      }
    }
 
    public static void saveTransaction(Transaction tx) {
-      String str = formatStr(tx);
+      // String str = formatStr(tx);
+      String str = tx.toString();
 
       try (BufferedWriter writer = new BufferedWriter(new FileWriter(path, true))) {
          writer.write(str);
@@ -54,7 +83,7 @@ public class TransactionHandler {
       try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
          while ((str = reader.readLine()) != null) {
             String[] strDetail = str.split(", ");
-            if (strDetail[0].compareTo(from) >= 0 && strDetail[0].compareTo(to) <= 0) {
+            if (strDetail[1].compareTo(from) >= 0 && strDetail[1].compareTo(to) <= 0) {
                res.add(str);
             }
          }
@@ -72,7 +101,7 @@ public class TransactionHandler {
       try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
          while ((str = reader.readLine()) != null) {
             String[] strDetail = str.split(", ");
-            String dataDate = strDetail[0];
+            String dataDate = strDetail[1];
             String dataUserName = strDetail[5].trim();
 
             boolean filter = true;
@@ -90,6 +119,46 @@ public class TransactionHandler {
          GUIExpenseTracker.showErrorMessageDialog(e.getMessage());
       }
 
+      return res;
+   }
+
+   public static ArrayList<Transaction> getTransactionsObj(String from, String to,
+         String userName) {
+      ArrayList<Transaction> res = new ArrayList<>();
+      String str;
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+      try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+         while ((str = reader.readLine()) != null) {
+            String[] strDetail = str.split(", ");
+            // String trxId = strDetail[0];
+            LocalDate trxDate = LocalDate.parse(strDetail[1], formatter);
+            String trxTitle = strDetail[2];
+            String trxCategory = strDetail[3];
+            String trxType = strDetail[4];
+            double trxNominal = Double.parseDouble(strDetail[5]);
+            String trxUserName = strDetail[6].trim();
+            User trxUser = new User(trxUserName);
+
+
+            boolean filter = true;
+            filter = (from != null) ? filter && trxTitle.compareTo(from) >= 0 : true;
+            filter = (to != null) ? filter && trxTitle.compareTo(to) <= 0 : true;
+            filter = (userName != null && !userName.isEmpty() && !userName.isEmpty())
+                  ? filter && trxUserName.equals(userName)
+                  : true;
+
+            if (filter) {
+               Transaction trx = (trxType.equals("Income"))
+                     ? new Income(trxTitle, trxCategory, trxNominal, trxDate, trxUser)
+                     : new Expense(trxTitle, trxCategory, trxNominal, trxDate, trxUser);
+
+               res.add(trx);
+            }
+         }
+      } catch (IOException e) {
+         GUIExpenseTracker.showErrorMessageDialog(e.getMessage());
+      }
       return res;
    }
 
