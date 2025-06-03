@@ -93,7 +93,6 @@ public abstract class Transaction {
       User txUser = this.getUser();
       String txId = this.getId();
       String userName = txUser.getName();
-      return String.format("%s, %s, %s, %s, %.2f, %s, %s\n", txTimeStr, txTitle, txCategory, txType,
-            txAmount, txId, userName);
+      return String.format("%s, %s, %s, %s, %s, %.2f, %s\n", txId, txTimeStr, txTitle, txCategory, txType, txAmount, userName);
    }
 }
