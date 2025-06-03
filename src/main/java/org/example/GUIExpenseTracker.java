@@ -417,7 +417,16 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
     }// GEN-LAST:event_txtNominalTrxActionPerformed
 
     private void buttonDeleteTxActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonDeleteTxActionPerformed
+        try{
+            Object selected = tableReport.getValueAt(tableReport.getSelectedRow(), 0);
 
+            if (selected != null) {
+                TransactionHandler.deleteTransaction(selected.toString());
+                populateReportTable(null, null, null);
+            }
+        } catch (ArrayIndexOutOfBoundsException e){
+            showErrorMessageDialog("Pilih transaksi yang ingin dihapus!");
+        }
     }// GEN-LAST:event_buttonDeleteTxActionPerformed
 
     private void comTypeTrxActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_comTypeTrxActionPerformed

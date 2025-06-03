@@ -5,28 +5,12 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class TransactionHandler {
    static String path = "data.txt";
-
-   private static String formatStr(Transaction tx) {
-      String txId = tx.getId();
-      String txTitle = tx.getTitle();
-      String txCategory = tx.getCategory();
-      Double txAmount = tx.getNominal();
-      String txTimeStr = tx.getTime().toString();
-      String txType = tx.getType();
-      User txUser = tx.getUser();
-      String userName = txUser.getName();
-      return String.format("%s, %s, %s, %s, %s, %.2f, %s\n", txId, txTimeStr, txTitle, txCategory,
-            txType, txAmount, userName);
-   }
 
    public static void deleteTransaction(String id) {
       ArrayList<String> txs = getTransactions();
@@ -51,7 +35,6 @@ public class TransactionHandler {
    }
 
    public static void saveTransaction(Transaction tx) {
-      // String str = formatStr(tx);
       String str = tx.toString();
 
       try (BufferedWriter writer = new BufferedWriter(new FileWriter(path, true))) {
