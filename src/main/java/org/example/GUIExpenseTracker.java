@@ -499,8 +499,8 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
             totalMoney -= Double.parseDouble(txDetails[5]);
          }
       }
-
-      labelTotal.setText("Total Uang Sisa: Rp" + String.valueOf(totalMoney));
+      String total = String.format("Total Uang Sisa: Rp%.0f", totalMoney);
+      labelTotal.setText(total);
    }
 
    protected static void showErrorMessageDialog(String message) {
