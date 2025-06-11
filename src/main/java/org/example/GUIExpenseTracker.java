@@ -400,11 +400,18 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
             String txUserName = txtUserTrx.getText().trim();
             String txTitle = txtKetTrx.getText();
             String txCategory = comboCat.getSelectedItem().toString();
+            
+            if(txUserName.isEmpty() || txTitle.isEmpty()) {
+                throw new Exception("Field tidak boleh kosong!");
+            }
+
             Double txNominal = Double.parseDouble(txtNominalTrx.getText());
             saveTrx(chosenType, txUserName, txTitle, txCategory, txNominal);
             populateReportTable(null, null, null);
         } catch (NumberFormatException e) {
             showErrorMessageDialog("Masukkan nominal yang sesuai!");
+        } catch (Exception e){
+            showErrorMessageDialog(e.getMessage());
         }
     }// GEN-LAST:event_btnSaveTrxActionPerformed
 
@@ -451,7 +458,9 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
     private void saveTrx(String trxType, String username, String title, String category,
             double nominal) {
         try {
-            if (nominal < 0) {
+            if (username.isEmpty() || title.isEmpty()){
+                throw new Exception("Field tidak boleh kosong!");
+            } else if (nominal < 0) {
                 throw new NumberFormatException();
             }
 
@@ -469,6 +478,8 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
             txtNominalTrx.setText("");
         } catch (NumberFormatException e) {
             showErrorMessageDialog("Masukkan nominal yang sesuai!");
+        } catch (Exception e){
+            showErrorMessageDialog(e.getMessage());
         }
     }
 
@@ -478,10 +489,8 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
         ArrayList<String> txs;
 
         if (from == null || until == null) {
-            System.out.println("masuk null");
             txs = TransactionHandler.getTransactions(null, null, userName);
         } else {
-            System.out.println("masuk sini");
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
             Date dateFrom = from;
