@@ -85,14 +85,12 @@ public class TransactionHandler {
          while ((str = reader.readLine()) != null) {
             String[] strDetail = str.split(", ");
             String dataDate = strDetail[1];
-            String dataUserName = strDetail[5].trim();
+            String dataUserName = strDetail[6].trim();
 
             boolean filter = true;
             filter = (from != null) ? filter && dataDate.compareTo(from) >= 0 : true;
             filter = (to != null) ? filter && dataDate.compareTo(to) <= 0 : true;
-            filter = (userName != null && !userName.isEmpty() && !userName.isEmpty())
-                  ? filter && dataUserName.equals(userName)
-                  : true;
+            filter = (userName != null && !userName.isEmpty()) ? filter && dataUserName.equals(userName) : true;
 
             if (filter) {
                res.add(str);
@@ -105,8 +103,7 @@ public class TransactionHandler {
       return res;
    }
 
-   public static ArrayList<Transaction> getTransactionsObj(String from, String to,
-         String userName) {
+   public static ArrayList<Transaction> getTransactionsObj(String from, String to, String userName) {
       ArrayList<Transaction> res = new ArrayList<>();
       String str;
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
