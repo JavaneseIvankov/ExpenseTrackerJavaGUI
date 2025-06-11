@@ -1,4 +1,4 @@
-package org.example;
+package main.java.org.example;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -122,7 +122,7 @@ public class GUIExpenseTracker extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Keterangan", "Kategori", "Nominal", "Tanggal", "Jenis", "User"
+                "ID", "Tanggal", "Keterangan", "Kategori", "Jenis", "Nominal", "User"
             }
         ) {
             boolean[] canEdit = new boolean [] {
