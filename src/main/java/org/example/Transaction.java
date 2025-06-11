@@ -1,4 +1,4 @@
-package main.java.org.example;
+package org.example;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -93,6 +93,7 @@ public abstract class Transaction {
       User txUser = this.getUser();
       String txId = this.getId();
       String userName = txUser.getName();
-      return String.format("%s, %s, %s, %s, %s, %.2f, %s\n", txId, txTimeStr, txTitle, txCategory, txType, txAmount, userName);
+      return String.format("%s, %s, %s, %s, %s, %.2f, %s\n", txId, txTimeStr, txTitle, txCategory,
+            txType, txAmount, userName);
    }
 }

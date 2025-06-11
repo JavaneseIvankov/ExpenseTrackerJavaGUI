@@ -1,4 +1,4 @@
-package main.java.org.example;
+package org.example;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -90,7 +90,9 @@ public class TransactionHandler {
             boolean filter = true;
             filter = (from != null) ? filter && dataDate.compareTo(from) >= 0 : true;
             filter = (to != null) ? filter && dataDate.compareTo(to) <= 0 : true;
-            filter = (userName != null && !userName.isEmpty()) ? filter && dataUserName.equals(userName) : true;
+            filter = (userName != null && !userName.isEmpty())
+                  ? filter && dataUserName.equals(userName)
+                  : true;
 
             if (filter) {
                res.add(str);
@@ -103,7 +105,8 @@ public class TransactionHandler {
       return res;
    }
 
-   public static ArrayList<Transaction> getTransactionsObj(String from, String to, String userName) {
+   public static ArrayList<Transaction> getTransactionsObj(String from, String to,
+         String userName) {
       ArrayList<Transaction> res = new ArrayList<>();
       String str;
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
